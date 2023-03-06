@@ -8,11 +8,16 @@ function exit (){
 		alert("Leaving " + name + "'s game");
 	}
 	name = "";
+	loadpage("../index.html")
 }
 
 function options(){
 	// TODO: Open options menu
 	console.log("Options menu button");
+}
+
+function index_pi2(){
+	loadpage("./pi_2/index.html");
 }
 
 
