@@ -24,8 +24,6 @@ p{
 
 button.menu-object{
 	border-radius: 24px;
-	display: grid;
-	grid-template-columns: 2fr;
 }
 
 button.menu-object:active{
@@ -33,7 +31,6 @@ button.menu-object:active{
 	width: 275px;
 	height: 70px;
 	background-color: rgb(72, 105, 167);
-	border-radius: 24px;
 }
 
 button.menu-object:hover:not(:active){
@@ -41,7 +38,6 @@ button.menu-object:hover:not(:active){
 	width: 325px;
 	height: 85px;
 	background-color: rgb(72, 105, 167);
-	border-radius: 24px;
 }
 
 .pi_2{
@@ -64,7 +60,6 @@ button.pi_2:active{
 	width: 275px;
 	height: 70px;
 	background-color: rgb(72, 105, 167);
-	border-radius: 24px;
 }
 
 button.pi_2:hover:not(:active){
@@ -72,5 +67,30 @@ button.pi_2:hover:not(:active){
 	width: 325px;
 	height: 85px;
 	background-color: rgb(98, 128, 184);
-	border-radius: 24px;
+}
+
+.container{
+	display: grid;
+	grid-template-rows: repeat(4, 1fr);
+	grid-template-columns: 2fr, 2fr, 2fr;
+}
+
+.titol{
+	grid-row: 1;
+	grid-column: 2;
+}
+
+.opcio1{
+	grid-row: 2;
+	grid-column: 2;
+}
+
+.opcio2{
+	grid-row: 3;
+	grid-column: 2;
+}
+
+.opcio3{
+	grid-row: 4;
+	grid-column: 2;
 }
