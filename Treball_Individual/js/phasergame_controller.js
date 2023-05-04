@@ -1,5 +1,5 @@
 var config = {
-    type: phaser_game.AUTO,
+    type: Phaser.AUTO,
     width: 800,
     height: 600,
     parent: 'game_area',
@@ -13,4 +13,4 @@ var config = {
     scene: [ GameScene ]
 };
 
-var game = new phaser_game.Game(config);
+var game = new Phaser.Game(config);

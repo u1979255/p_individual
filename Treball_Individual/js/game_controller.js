@@ -11,13 +11,14 @@ var game = new Vue({
 		num_cards: 2,
 		bad_clicks: 0,
 		start: false,
-		dificultat: "easy"
+		mode: "normal",
+		nivell: 1
 	},
 	created: function(){
-		var json = localStorage.getItem("config") || '{"cards":2,"dificulty:"hard"}';
+		var json = localStorage.getItem("config") || '{"cards":2,"mode:"normal"}';
 		var game_data =JSON.parse(json);
-		this.num_cards = game_data.cards;
-		this.dificultat = game_data.dificulty;
+		this.mode = game_data.mode;
+		this.nivell = game_data.nivell;
  		this.username = sessionStorage.getItem("username","unknown");
 		this.items = items.slice(); // Copiem l'array
 		this.items.sort(function(){return Math.random() - 0.5}); // Array aleatòria
@@ -27,15 +28,23 @@ var game = new Vue({
 		for (var i = 0; i < this.items.length; i++){
 			this.current_card.push({done: false, texture: this.items[i]});
 		}
-		var time= 0;
-		if (game_data.dificulty == "hard"){
-			time = 500;
-		}
-		else if (game_data.dificulty == "normal"){
-			time = 1000; 
+		if (game_data.mode == "normal"){
+			this.num_cards = game_data.cards;
 		}
 		else{
-			time = 1500;
+			if (game_data.nivell > 149)
+				this.num_cards = 4;
+			else if (game_data.nivell > 79)
+				this.num_cards = 3;
+			else 
+				this.num_cards = 2;
+		}
+		var time= 0;
+		if (game_data.mode == "normal"){
+			time = 1000;
+		}
+		else{
+			time = 1000-(game_data.nivell*5);
 		}
 		
 		setTimeout(() => {
