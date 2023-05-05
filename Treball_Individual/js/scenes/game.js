@@ -9,6 +9,7 @@ class GameScene extends Phaser.Scene {
         this.error = 5;
         this.mode = "normal";
         this.nivell = 1;
+        this.ncards = 2;
     }
     preload (){
         this.load.image('back', '../resources/back.png');
@@ -18,38 +19,65 @@ class GameScene extends Phaser.Scene {
         this.load.image('so', '../resources/so.png');
         this.load.image('tb', '../resources/tb.png');
         this.load.image('to', '../resources/to.png');
-    }
-
-    create (){
-        let arraycards = ['co','sb','co','sb'];
-        arraycards.sort(function() {return Math.random() - 0.5});
-        this.cameras.main.setBackgroundColor(0xBFFCFF);
-
-        this.add.image(250, 300, arraycards[0]);
-        this.add.image(350, 300, arraycards[1]);
-        this.add.image(450, 300, arraycards[2]);
-        this.add.image(550, 300, arraycards[3]);
-
-        this.cards = this.physics.add.staticGroup();
-
-        this.cards.create(250, 300, 'back');
-        this.cards.create(350, 300, 'back');
-        this.cards.create(450, 300, 'back');
-        this.cards.create(550, 300, 'back');
-
         let json = localStorage.getItem("config") || '{"cards":2,"mode:"normal"}';
 		let game_data =JSON.parse(json);
         this.mode = game_data.mode;
         this.nivell = game_data.nivell;
+        this.ncards = game_data.cards;
+    }
 
+    create (){
+        
         if (this.mode == "infinit"){
             this.error = 5+5*(this.nivell/20)
             this.time = 1000 - (this.nivell*5)
+            this.cards = 2 + (this.nivell*40)
+        }
+
+        let arraycards = [];
+        if (this.ncards == 2){
+            arraycards = ['co','sb','co','sb'];
+        }
+        else if (this.ncards == 3){
+            arraycards = ['co','sb','to','co','sb','to'];
+        }
+        else if (this.ncards == 4){
+            arraycards = ['cb','co','so','to','cb','co','so','to'];
+        }
+        else if (this.ncards == 5){
+            arraycards = ['cb','co','sb','so','to','cb','co','sb','so','to'];
+        }
+        else if (this.ncards == 6){
+            arraycards = ['cb','co','sb','so','tb','to','cb','co','sb','so','tb','to'];
+        }
+
+        arraycards.sort(function() {return Math.random() - 0.5});
+        console.log(arraycards);
+        this.cameras.main.setBackgroundColor(0xBFFCFF);
+        
+        for (let i = 0; i < arraycards.length; i++){
+            if (i < arraycards.length/2){
+                this.add.image(250 + (100*i), 200, arraycards[i]);
+            }
+            else{
+                this.add.image(250 + (100*(i-arraycards.length/2)), 400, arraycards[i]);
+            }
+        }
+        
+        this.cards = this.physics.add.staticGroup();
+
+        for (let i = 0; i < arraycards.length; i++){
+            if (i < arraycards.length/2){
+                this.cards.create(250 + (100*i), 200, 'back');    
+            }
+            else {
+                this.cards.create(250 + (100*(i-arraycards.length/2)), 400, 'back');
+            }
+            
         }
 
         let i = 0;
         
-
         this.cards.children.iterate((card)=>{
             card.card_id = arraycards[i];
             i++;
@@ -70,7 +98,7 @@ class GameScene extends Phaser.Scene {
                         this.correct++;
                         if (this.correct >= 2){
                             alert("Has guanyat amb " + this.score + " punts.");
-                            if (this.mode = "infinit"){
+                            if (this.mode == "infinit"){
                                 /*Aqui va la parte que tiene que volver a empezar la partida con un nivel mas*/ 
                             }
                             else{
@@ -88,4 +116,8 @@ class GameScene extends Phaser.Scene {
     }
 
     update (){}
+
+    mostarCartes (){
+        
+    }
 }
