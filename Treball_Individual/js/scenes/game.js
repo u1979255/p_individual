@@ -32,24 +32,38 @@ class GameScene extends Phaser.Scene {
         if (this.mode == "infinit"){
             this.error = 5+5*(this.nivell/20)
             this.time = 1000 - (this.nivell*5)
-            this.cards = 2 + (this.nivell*40)
+            if (this.nivell > 160){
+                this.ncards = 6;
+            }
+            else if (this.nivell > 120){
+                this.ncards = 5;
+            }
+            else if (this.nivell > 80){
+                this.ncards = 4;
+            }
+            else if (this.nivell > 40){
+                this.ncards = 3;
+            }
+            else{
+                this.ncards = 2;
+            }
         }
 
         let arraycards = [];
-        if (this.ncards == 2){
-            arraycards = ['co','sb','co','sb'];
+        if (this.ncards >= 6){
+            arraycards = ['cb','co','sb','so','tb','to','cb','co','sb','so','tb','to'];
         }
-        else if (this.ncards == 3){
-            arraycards = ['co','sb','to','co','sb','to'];
+        else if (this.ncards >= 5){
+            arraycards = ['cb','co','sb','so','to','cb','co','sb','so','to']; 
         }
-        else if (this.ncards == 4){
+        else if (this.ncards >= 4){
             arraycards = ['cb','co','so','to','cb','co','so','to'];
         }
-        else if (this.ncards == 5){
-            arraycards = ['cb','co','sb','so','to','cb','co','sb','so','to'];
+        else if (this.ncards >= 3){
+            arraycards = ['co','sb','to','co','sb','to'];
         }
-        else if (this.ncards == 6){
-            arraycards = ['cb','co','sb','so','tb','to','cb','co','sb','so','tb','to'];
+        else if (this.ncards >= 2){
+            arraycards = ['co','sb','co','sb'];
         }
 
         arraycards.sort(function() {return Math.random() - 0.5});
@@ -58,10 +72,10 @@ class GameScene extends Phaser.Scene {
         
         for (let i = 0; i < arraycards.length; i++){
             if (i < arraycards.length/2){
-                this.add.image(250 + (100*i), 200, arraycards[i]);
+                this.add.image(150 + (100*i), 200, arraycards[i]);
             }
             else{
-                this.add.image(250 + (100*(i-arraycards.length/2)), 400, arraycards[i]);
+                this.add.image(150 + (100*(i-arraycards.length/2)), 400, arraycards[i]);
             }
         }
         
@@ -69,10 +83,10 @@ class GameScene extends Phaser.Scene {
 
         for (let i = 0; i < arraycards.length; i++){
             if (i < arraycards.length/2){
-                this.cards.create(250 + (100*i), 200, 'back');    
+                this.cards.create(150 + (100*i), 200, 'back');    
             }
             else {
-                this.cards.create(250 + (100*(i-arraycards.length/2)), 400, 'back');
+                this.cards.create(150 + (100*(i-arraycards.length/2)), 400, 'back');
             }
             
         }
@@ -98,17 +112,18 @@ class GameScene extends Phaser.Scene {
                     else{
                         this.correct++;
                         if (this.correct >= this.ncards){
-                            alert("Has guanyat amb " + this.score + " punts.");
                             if (this.mode == "infinit"){
+                                this.totalscore += this.score;
+                                alert("Has completat el nivell "+ this.nivell + " i tens " + this.totalscore + " punts.");
                                 this.create();
                                 this.nivell++;
                                 this.correct = 0;
-                                this.totalscore += this.score;
                                 this.score = 100;
 
                             }
                             else{
-                            loadpage("../");
+                                alert("Has guanyat " + this.score + " punts.");
+                                loadpage("../");
                             }
                         }
                     }
