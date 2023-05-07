@@ -10,6 +10,7 @@ class GameScene extends Phaser.Scene {
         this.mode = "normal";
         this.nivell = 1;
         this.ncards = 2;
+        this.totalscore = 0;
     }
     preload (){
         this.load.image('back', '../resources/back.png');
@@ -96,10 +97,15 @@ class GameScene extends Phaser.Scene {
                     }
                     else{
                         this.correct++;
-                        if (this.correct >= 2){
+                        if (this.correct >= this.ncards){
                             alert("Has guanyat amb " + this.score + " punts.");
                             if (this.mode == "infinit"){
-                                /*Aqui va la parte que tiene que volver a empezar la partida con un nivel mas*/ 
+                                this.create();
+                                this.nivell++;
+                                this.correct = 0;
+                                this.totalscore += this.score;
+                                this.score = 100;
+
                             }
                             else{
                             loadpage("../");

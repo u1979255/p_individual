@@ -1,11 +1,3 @@
-function start_game(){
-	name = prompt("User name");
-	
-	sessionStorage.setItem("username", name);
-	
-	loadpage("./html/game.html");
-}
-
 function exit (){
 	if (name != ""){
 		alert("Leaving " + name + "'s game");
@@ -31,5 +23,8 @@ function index_TreballIndividual(){
 }
 
 function phaser_game(){
+	name = prompt("User name");
+	
+	sessionStorage.setItem("username", name);
 	loadpage("./html/phasergame.html");
 }
